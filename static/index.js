@@ -1,4 +1,4 @@
-import { g, r, h, x, t } from "./xeact.js";
+import { g, r, x } from "./xeact.js";
 import { ul, li } from "./xeact-html.js";
 
 const refreshChat = async () => {
@@ -6,8 +6,6 @@ const refreshChat = async () => {
     const messages = await resp.json();
 
     x(g("chatRoot"));
-
-    console.log(messages);
 
     g("chatRoot").appendChild(
         ul(
@@ -18,8 +16,6 @@ const refreshChat = async () => {
 };
 
 const postMessage = async (msg) => {
-    console.log(msg);
-
     const location = window.location.origin;
     const settings = {
         method: "POST",
