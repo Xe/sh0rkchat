@@ -6,6 +6,10 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[mounts]
+source="sh0rknet_data"
+destination="/data"
+
 [env]
 
 [experimental]
@@ -38,3 +42,8 @@ processes = []
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
+
+[[statics]]
+  guest_path = "/app/static"
+  url_prefix = "/static"
+

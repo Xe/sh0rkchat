@@ -2,6 +2,13 @@ import * as Drash from "https://deno.land/x/drash@v2.5.4/mod.ts";
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
 const db = new DB("./test.db");
+db.query(`
+CREATE TABLE IF NOT EXISTS messages
+  ( id      INTEGER PRIMARY KEY
+  , sender  TEXT NOT NULL
+  , message TEXT NOT NULL
+  );
+`);
 
 class HomeResource extends Drash.Resource {
     public paths = ["/"];
@@ -14,20 +21,11 @@ class HomeResource extends Drash.Resource {
     }
 }
 
-class FilesResource extends Drash.Resource {
-    public paths = ["/static/.*"];
-
-    public GET(request: Drash.Request, response: Drash.Response) {
-        const path = new URL(request.url).pathname;
-        return response.file(`.${path}`);
-    }
-}
-
 const server = new Drash.Server({
     hostname: "0.0.0.0",
     port: 8080,
     protocol: "http",
-    resources: [HomeResource, FilesResource],
+    resources: [HomeResource],
 });
 
 server.run();
