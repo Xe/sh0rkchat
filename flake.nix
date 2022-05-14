@@ -19,6 +19,8 @@
             nodePackages.typescript-language-server
           ];
         };
+
+        DATABASE_PATH = "./test.db";
       }
     );
 }

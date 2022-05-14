@@ -11,6 +11,7 @@ source="sh0rknet_data"
 destination="/data"
 
 [env]
+DATABASE_PATH = "/data/sh0rknet.db"
 
 [experimental]
   allowed_public_ports = []

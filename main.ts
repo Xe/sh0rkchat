@@ -1,7 +1,7 @@
 import * as Drash from "https://deno.land/x/drash@v2.5.4/mod.ts";
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 
-const db = new DB("./test.db");
+const db = new DB(Deno.env.get("DATABASE_PATH"));
 db.query(`
 CREATE TABLE IF NOT EXISTS messages
   ( id      INTEGER PRIMARY KEY
