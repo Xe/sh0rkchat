@@ -4,7 +4,7 @@ import { DB } from "https://deno.land/x/sqlite/mod.ts";
 const db = new DB(Deno.env.get("DATABASE_PATH"));
 db.query(`
 CREATE TABLE IF NOT EXISTS messages
-  ( id      INTEGER PRIMARY KEY
+  ( id      INTEGER NOT NULL PRIMARY KEY
   , sender  TEXT NOT NULL
   , message TEXT NOT NULL
   );
@@ -13,13 +13,30 @@ CREATE TABLE IF NOT EXISTS messages
 class HomeResource extends Drash.Resource {
     public paths = ["/"];
 
+    public POST(request: Drash.Request, response: Drash.Response): void {
+        const message = request.bodyParam<string>("message");
+        const name = request.bodyParam<string>("name");
+        console.log(`message: ${message}, name: ${name}`)
+
+        if (!message || !name) {
+            throw new Drash.Errors.HttpError(400, "need both name and message");
+        }
+
+        db.query("INSERT INTO messages(sender, message) VALUES (?1, ?2)", [name, message]);
+    }
+
     public GET(request: Drash.Request, response: Drash.Response): void {
-        return response.json({
-            hello: "world",
-            time: new Date(),
-        });
+        let reply: any[] = [];
+
+        for (const [name, message] of db.query("SELECT sender, message FROM messages")) {
+            reply.push({name, message});
+        }
+
+        response.json(reply);
     }
 }
+
+
 
 const server = new Drash.Server({
     hostname: "0.0.0.0",
