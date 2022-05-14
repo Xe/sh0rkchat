@@ -12,6 +12,7 @@ export const h6 = $tl("h6");
 export const p = $tl("p");
 export const b = $tl("b");
 export const i = $tl("i");
+export const li = $tl("li");
 export const u = $tl("u");
 export const dd = $tl("dd");
 export const dt = $tl("dt");
