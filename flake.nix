@@ -14,6 +14,7 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             deno
+            nodejs
             nodePackages.typescript
             nodePackages.typescript-language-server
           ];
