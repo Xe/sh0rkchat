@@ -12,12 +12,12 @@ CREATE TABLE IF NOT EXISTS messages
 `);
 
 class Files extends Drash.Resource {
-  paths = ["/static/.*"];
+    paths = ["/static/.*"];
 
-  public GET(request: Drash.Request, response: Drash.Response) {
-    const path = new URL(request.url).pathname;
-    return response.file(`.${path}`); // response.file("./favicon.ico")
-  }
+    public GET(request: Drash.Request, response: Drash.Response) {
+        const path = new URL(request.url).pathname;
+        return response.file(`.${path}`); // response.file("./favicon.ico")
+    }
 }
 
 class Chat extends Drash.Resource {
@@ -39,7 +39,7 @@ class Chat extends Drash.Resource {
         let reply: any[] = [];
 
         for (const [name, message] of db.query("SELECT sender, message FROM messages")) {
-            reply.push({name, message});
+            reply.push({ name, message });
         }
 
         response.json(reply);
@@ -50,8 +50,7 @@ class Index extends Drash.Resource {
     public paths = ["/"];
 
     public GET(request: Drash.Request, response: Drash.Response): void {
-        return html`
-<!DOCTYPE html>
+        response.html(html`<!DOCTYPE html>
 <html>
     <head>
         <title>Page Title</title>
@@ -76,7 +75,7 @@ class Index extends Drash.Resource {
         </main>
     </body>
 </html>
-`
+`);
     }
 }
 
