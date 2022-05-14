@@ -1,6 +1,6 @@
 import * as Drash from "https://deno.land/x/drash@v2.5.4/mod.ts";
+import { DexterService } from "https://deno.land/x/drash@v2.5.4/src/services/dexter/dexter.ts";
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
-import { html } from "https://deno.land/x/html_template@0.2.1/mod.ts";
 
 const db = new DB(Deno.env.get("DATABASE_PATH"));
 db.query(`
@@ -54,11 +54,19 @@ class Index extends Drash.Resource {
     }
 }
 
+const dexter = new DexterService({
+    enabled: true,
+    method: true,
+    url: true,
+    response_time: true,
+});
+
 const server = new Drash.Server({
     hostname: "0.0.0.0",
     port: 8080,
     protocol: "http",
     resources: [Chat, Files, Index],
+    services: [dexter],
 });
 
 server.run();

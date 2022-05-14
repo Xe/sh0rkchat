@@ -17,12 +17,36 @@ const refreshChat = async () => {
     );
 };
 
+const postMessage = async (msg) => {
+    console.log(msg);
+
+    const location = window.location.origin;
+    const settings = {
+        method: "POST",
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(msg),
+    };
+
+    const fetchResponse = await fetch(`${location}/api/chat`, settings);
+    refreshChat();
+};
+
 r(async () => {
     g("chatForm").addEventListener("submit", (e) => {
         e.preventDefault();
+
+        postMessage({
+            name: g("name").value,
+            message: g("message").value,
+        });
 
         return false;
     });
 
     await refreshChat();
+
+    setInterval(refreshChat, 5000);
 });
